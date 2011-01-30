@@ -1,6 +1,47 @@
 = aavkontakte
 
-Description goes here.
+Another authlogic vkontakte authorization
+
+== Install
+
+gem install aavkontakte
+
+* Environment
+
+In environment.rb:
+
+config.gem 'aavkontakte', :version => '=0.1.0'
+
+VK_APP_ID = 'vk_app_id'
+VK_APP_PASSWORD = 'vk_app_password'
+VK_APP_COOKIE = 'vk_app_#{VK_APP_ID}'
+
+* Migrations
+
+TODO: migrations
+
+* Layout
+
+In the body section:
+<%= init_vkontakte %>
+
+* Javascripts
+
+After first start your application, it's copying vkontakte.js to your javascripts directory or if it doesn't exist.
+
+* Link
+
+put link somewhere, where you want
+<%= vkontakte_login_link "Войти через vkontakte" %>
+
+* User session
+
+def create
+  @user_session = UserSession.new(params[:status] ? cookies : params[:user_session])
+  ...
+
+
+That's all
 
 == Contributing to aavkontakte
  
@@ -16,4 +57,3 @@ Description goes here.
 
 Copyright (c) 2011 Dmitry Vorotilin. See LICENSE.txt for
 further details.
-
