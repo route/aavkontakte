@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dmitry Vorotilin"]
   s.date = %q{2011-01-30}
-  s.description = %q{Another Authlogic Vkontakte}
+  s.description = %q{Another authlogic vkontakte}
   s.email = %q{mydeeptown@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "aavkontakte-0.1.0.gem",
     "aavkontakte.gemspec",
     "init.rb",
     "lib/aavkontakte.rb",
@@ -38,7 +39,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Another Authlogic Vkontakte}
+  s.summary = %q{Vkontakte authorization}
   s.test_files = [
     "test/helper.rb",
     "test/test_aavkontakte.rb"
