@@ -2,12 +2,10 @@ require "md5"
 
 module VkontakteAuthentication
   module Session
-
     def self.included(klass)
       klass.class_eval do
-        extend Config
+        extend Config, Configuration
         include InstanceMethods
-        
         after_destroy :destroy_vkontakte_cookies
         validate :validate_by_vk_cookie, :if => :authenticating_with_vkontakte?
       end
@@ -33,17 +31,17 @@ module VkontakteAuthentication
       def credentials=(value)
         super
         cookies = value.is_a?(Array) ? value.first : value
-        if record_class.vkontakte_enabled_value && cookies && cookies[VK_APP_COOKIE]
-          @vk_cookies = CGI::parse(cookies[VK_APP_COOKIE])
+        if self.class.vkontakte_enabled_value && cookies && cookies[self.class.vk_app_cookie]
+          @vk_cookies = CGI::parse(cookies[self.class.vk_app_cookie])
         end
       end
 
       def authenticating_with_vkontakte?
-        record_class.vkontakte_enabled_value && @vk_cookies
+        self.class.vkontakte_enabled_value && @vk_cookies
       end
 
       def validate_by_vk_cookie
-        result = "expire=%smid=%ssecret=%ssid=%s%s" % [@vk_cookies['expire'], @vk_cookies['mid'], @vk_cookies['secret'], @vk_cookies['sid'], VK_APP_PASSWORD]
+        result = "expire=%smid=%ssecret=%ssid=%s%s" % [@vk_cookies['expire'], @vk_cookies['mid'], @vk_cookies['secret'], @vk_cookies['sid'], self.class.vk_app_password]
         if MD5.md5(result).to_s == @vk_cookies['sig'].to_s
           raise(NotInitializedError, "You must define vk_id column in your User model") unless record_class.respond_to? find_by_vk_id_method
           mid_cookie = @vk_cookies['mid'].first
@@ -71,9 +69,8 @@ module VkontakteAuthentication
       end
 
       def destroy_vkontakte_cookies
-        controller.cookies.delete VK_APP_COOKIE
+        controller.cookies.delete vk_app_cookie
       end
     end
-
   end
 end

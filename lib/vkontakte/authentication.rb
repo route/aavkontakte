@@ -2,8 +2,8 @@ module VkontakteAuthentication
   module ActsAsAuthentic
     def self.included(klass)
       klass.class_eval do
-        extend Config
-        if defined? AuthlogicRpx::ActsAsAuthentic::Methods
+        extend Configuration, Config
+        if defined? AuthlogicRpx
           remove_acts_as_authentic_module AuthlogicRpx::ActsAsAuthentic::Methods
           add_acts_as_authentic_module Methods, :prepend
           add_acts_as_authentic_module AuthlogicRpx::ActsAsAuthentic::Methods
@@ -12,28 +12,16 @@ module VkontakteAuthentication
         end
       end
     end
-    
-    class NotInitializedError < StandardError
-    end
 
     module Config
       def vkontakte_enabled(vk_app_data = {})
-        value  = vk_app_data.present? ? vk_app_data[:vk_app_id].present? && vk_app_data[:vk_app_password] : false
-        vkontakte_enabled_value(value)
-        if vkontakte_enabled_value
-          rw_config(:vk_app_id, vk_app_data[:vk_app_id])
-          rw_config(:vk_app_password, vk_app_data[:vk_app_password])
-          rw_config(:vk_app_cookie, "vk_app_#{vk_app_data[:vk_app_id]}")
-
-          message = "Set vk_app_id and vk_app_password in your environment."
-          raise NotInitializedError, message if vkontakte_enabled_value && VK_APP_ID.blank? && VK_APP_PASSWORD.blank? && VK_APP_COOKIE.blank?
+        value = true if vk_app_data.present? && vk_app_data[:vk_app_id] && vk_app_data[:vk_app_password]
+        if vkontakte_enabled_value(value)
+          vk_app_id vk_app_data[:vk_app_id]
+          vk_app_password vk_app_data[:vk_app_password]
         end
       end
-      alias_method :vkontakte_enabled=,:vkontakte_enabled
-
-      def vkontakte_enabled_value(value = nil)
-        rw_config(:vkontakte_enabled, value, false)
-      end
+      alias_method :vkontakte_enabled=, :vkontakte_enabled
     end
 
     module Methods
@@ -47,13 +35,12 @@ module VkontakteAuthentication
 
       private
       def validate_password_not_vkontakte?
-        !authenticating_with_vkontakte? && (defined? AuthlogicRpx::ActsAsAuthentic::Methods ? !using_rpx? : true) && require_password?
+        !authenticating_with_vkontakte? && (defined?(AuthlogicRpx) ? !using_rpx? : true) && require_password?
       end
 
       def authenticating_with_vkontakte?
         vk_id.present? 
       end
     end
-
   end
 end

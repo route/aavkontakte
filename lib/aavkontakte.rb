@@ -1,3 +1,4 @@
+require "vkontakte/configuration"
 require "vkontakte/authentication"
 require "vkontakte/session"
 require "vkontakte/helper"
