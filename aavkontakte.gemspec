@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "aavkontakte.gemspec",
     "init.rb",
     "lib/aavkontakte.rb",
     "lib/vkontakte.js",
