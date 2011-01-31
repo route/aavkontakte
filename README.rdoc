@@ -1,6 +1,7 @@
 = aavkontakte
 
-This is beta version of aavkontakte - another authlogic vkontakte authorization. It provides vkontakte authorization to authlogic. 
+This is beta version of aavkontakte - another authlogic vkontakte authorization gem. It provides vkontakte authorization to authlogic.
+This gem is tested with authlogic and authlogic-rpx on my project. Please report me about bugs.
 
 == Install
 

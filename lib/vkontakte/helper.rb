@@ -1,13 +1,14 @@
 module VkontakteAuthentication
   module Helper
     def init_vkontakte
-      vkontakte_div + vkontakte_init
+      vkontakte_div + vkontakte_init if vk_app_id
     end
 
     def vkontakte_login_link(name, url = user_sessions_path, html_options = {})
       authenticity_token = protect_against_forgery? ? form_authenticity_token : ''
       options = "{ url: '#{url}', authenticity_token: '#{authenticity_token}', session_name: '#{session_key_name}', session_key: '#{cookies[session_key_name]}' }"
-      link_to name, "#", html_options.merge(:onclick => "vkLogin(#{options});")
+      html_options.merge!(:onclick => "vkLogin(#{options});") if vk_app_id
+      link_to name, "#", html_options
     end
 
     private
