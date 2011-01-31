@@ -1,6 +1,6 @@
 = aavkontakte
 
-Another authlogic vkontakte authorization
+This is beta version of aavkontakte - another authlogic vkontakte authorization. It provides vkontakte authorization to authlogic. 
 
 == Install
 
@@ -10,20 +10,35 @@ gem install aavkontakte
 
 In environment.rb:
 
-config.gem 'aavkontakte', :version => '=0.1.0'
+  config.gem 'aavkontakte', :version => '>=0.1.0'
 
-VK_APP_ID = 'vk_app_id'
-VK_APP_PASSWORD = 'vk_app_password'
-VK_APP_COOKIE = 'vk_app_#{VK_APP_ID}'
+* User model
+
+Add following line:
+
+  acts_as_authentic do |c|
+    c.vkontakte_enabled = { :vk_app_id => "id", :vk_app_password => "password" }
+  end
 
 * Migrations
 
-TODO: migrations
+Create migration:
+
+  class AddVkontakteIdToUser < ActiveRecord::Migration
+    def self.up
+      add_column :users, :vk_id, :string
+    end
+
+    def self.down
+     remove_column :users, :vk_id
+    end
+  end
 
 * Layout
 
 In the body section:
-<%= init_vkontakte %>
+
+  <%= init_vkontakte %>
 
 * Javascripts
 
@@ -32,16 +47,14 @@ After first start your application, it's copying vkontakte.js to your javascript
 * Link
 
 put link somewhere, where you want
-<%= vkontakte_login_link "Войти через vkontakte" %>
+
+  <%= vkontakte_login_link "Login with vkontakte" %>
 
 * User session
 
-def create
-  @user_session = UserSession.new(params[:status] ? cookies : params[:user_session])
-  ...
-
-
-That's all
+  def create
+    @user_session = UserSession.new(params[:status] ? cookies : params[:user_session])
+    ...
 
 == Contributing to aavkontakte
  

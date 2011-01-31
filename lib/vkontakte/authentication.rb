@@ -2,7 +2,7 @@ module VkontakteAuthentication
   module ActsAsAuthentic
     def self.included(klass)
       klass.class_eval do
-        extend Configuration, Config
+        extend Config
         if defined? AuthlogicRpx
           remove_acts_as_authentic_module AuthlogicRpx::ActsAsAuthentic::Methods
           add_acts_as_authentic_module Methods, :prepend
@@ -15,13 +15,30 @@ module VkontakteAuthentication
 
     module Config
       def vkontakte_enabled(vk_app_data = {})
-        value = true if vk_app_data.present? && vk_app_data[:vk_app_id] && vk_app_data[:vk_app_password]
+        value = vk_app_data.present? && vk_app_data[:vk_app_id] && vk_app_data[:vk_app_password] ? true : false
         if vkontakte_enabled_value(value)
           vk_app_id vk_app_data[:vk_app_id]
           vk_app_password vk_app_data[:vk_app_password]
         end
       end
       alias_method :vkontakte_enabled=, :vkontakte_enabled
+
+      def vkontakte_enabled_value(value = nil)
+        rw_config(:vkontakte_enabled, value, false)
+      end
+
+      def vk_app_id(value = nil)
+        rw_config(:vk_app_id, value)
+        ActiveRecord::Base.send(:rw_config, :vk_app_id, value)
+      end
+
+      def vk_app_password(value = nil)
+        rw_config(:vk_app_password, value)
+      end
+
+      def vk_app_cookie
+        rw_config(:vk_app_cookie, nil) || rw_config(:vk_app_cookie, "vk_app_#{vk_app_id}") if vk_app_id
+      end
     end
 
     module Methods

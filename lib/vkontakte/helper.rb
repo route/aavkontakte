@@ -1,7 +1,7 @@
 module VkontakteAuthentication
   module Helper
     def init_vkontakte
-      vkontakte_div + vkontakte_init if User.vkontakte_enabled_value
+      vkontakte_div + vkontakte_init
     end
 
     def vkontakte_login_link(name, url = user_sessions_path, html_options = {})
@@ -16,7 +16,11 @@ module VkontakteAuthentication
     end
 
     def vkontakte_init
-      javascript_include_tag("vkontakte") + javascript_tag("vkInit(#{User.vk_app_id});")
+      javascript_include_tag("vkontakte") + javascript_tag("vkInit(#{vk_app_id});")
+    end
+
+    def vk_app_id
+      ActiveRecord::Base.send(:rw_config, :vk_app_id, nil)
     end
   end
 end
