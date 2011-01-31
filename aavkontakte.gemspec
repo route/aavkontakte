@@ -36,7 +36,6 @@ Gem::Specification.new do |s|
     "test/test_aavkontakte.rb"
   ]
   s.homepage = %q{http://github.com/deeptown/aavkontakte}
-  s.rubyforge_project = "aavkontakte"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
