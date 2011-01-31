@@ -38,6 +38,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/deeptown/aavkontakte}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
+  s.rubyforge_project = %q{aavkontakte}
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Vkontakte authorization}
   s.test_files = [
