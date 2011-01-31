@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{aavkontakte}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dmitry Vorotilin"]
@@ -27,7 +27,6 @@ Gem::Specification.new do |s|
     "aavkontakte.gemspec",
     "init.rb",
     "lib/aavkontakte.rb",
-    "lib/migrate/add_vkontakte_id_to_user.rb",
     "lib/vkontakte.js",
     "lib/vkontakte/authentication.rb",
     "lib/vkontakte/helper.rb",
