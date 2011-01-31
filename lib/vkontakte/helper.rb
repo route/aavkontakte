@@ -4,9 +4,9 @@ module VkontakteAuthentication
       vkontakte_div + vkontakte_init if vk_app_id
     end
 
-    def vkontakte_login_link(name, url = user_sessions_path, html_options = {})
+    def vkontakte_login_link_to(name, url = user_session_path, html_options = {})
       authenticity_token = protect_against_forgery? ? form_authenticity_token : ''
-      options = "{ url: '#{url}', authenticity_token: '#{authenticity_token}', session_name: '#{session_key_name}', session_key: '#{cookies[session_key_name]}' }"
+      options = "{ url: '#{url}', authenticity_token: '#{authenticity_token}', session_key: '#{request.session_options[:key]}', session_id: '#{request.session_options[:id]}' }"
       html_options.merge!(:onclick => "vkLogin(#{options});") if vk_app_id
       link_to name, "#", html_options
     end

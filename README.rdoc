@@ -2,6 +2,8 @@
 
 This is beta version of aavkontakte - another authlogic vkontakte authorization gem. It provides vkontakte authorization to authlogic.
 This gem is tested with authlogic and authlogic-rpx on my project. Please report me about bugs.
+Vkontakte uses domain protection for url address of your site. But I noticed that:
+http://your-really-domain:3000/ after closing popup window is works too. You must add your domain in /etc/hosts
 
 == Install
 
@@ -11,7 +13,7 @@ gem install aavkontakte
 
 In environment.rb:
 
-  config.gem 'aavkontakte', :version => '>=0.1.0'
+  config.gem 'aavkontakte'
 
 * User model
 
@@ -23,17 +25,28 @@ Add following line:
 
 * Migrations
 
-Create migration:
+Create migration "script/generate migration add_vkontakte_id_to_user vk_id:string":
 
   class AddVkontakteIdToUser < ActiveRecord::Migration
     def self.up
       add_column :users, :vk_id, :string
+      # Wait a little time for some options for this.
+      # Now you are using only auto-registration, you must remove any database constraints for fields:
+      # Uncomment follow lines
+      # change_column :users, :crypted_password, :string, :null => true
+      # change_column :users, :password_salt, :string, :null => true
+      # change_column :users, :login, :string, :null => true
     end
 
     def self.down
-     remove_column :users, :vk_id
+      remove_column :users, :vk_id
+      # Uncomment follow lines
+      # change_column :users, :crypted_password, :string, :null => false
+      # change_column :users, :password_salt, :string, :null => false
+      # change_column :users, :login, :string, :null => false
     end
   end
+
 
 * Layout
 
@@ -49,7 +62,9 @@ After first start your application, it's copying vkontakte.js to your javascript
 
 Put link somewhere, where you want:
 
-  <%= vkontakte_login_link "Login with vkontakte" %>
+  <%= vkontakte_login_link_to "Login with vkontakte" %>
+
+By default it uses action create of user_sessions controller. Parameters are identical link_to without block.
 
 * User session
 
