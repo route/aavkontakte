@@ -66,12 +66,6 @@ Put link somewhere, where you want:
 
 By default it uses action create of user_sessions controller. Parameters are identical link_to without block.
 
-* User session
-
-In create action:
-
-  @user_session = UserSession.new(params[:status] ? cookies : params[:user_session])
-
 == Contributing to aavkontakte
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet

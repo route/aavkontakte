@@ -56,7 +56,7 @@ module VkontakteAuthentication
       end
 
       def authenticating_with_vkontakte?
-        vk_id.present? 
+        vk_id.present?
       end
     end
   end

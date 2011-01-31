@@ -4,7 +4,6 @@ module VkontakteAuthentication
       klass.class_eval do
         extend Config
         include InstanceMethods
-        after_destroy :destroy_vkontakte_cookies
         validate :validate_by_vk_cookie, :if => :authenticating_with_vkontakte?
       end
     end
@@ -26,27 +25,24 @@ module VkontakteAuthentication
 
     module InstanceMethods
       private
-      def credentials=(value)
-        super
-        cookies = value.is_a?(Array) ? value.first : value
-        if record_class.vkontakte_enabled_value && cookies && cookies[record_class.vk_app_cookie]
-          @vk_cookies = CGI::parse(cookies[record_class.vk_app_cookie])
+      def authenticating_with_vkontakte?
+        if record_class.vkontakte_enabled_value && controller.cookies[record_class.vk_app_cookie].present?
+          delete_cookie(record_class.vk_app_cookie)
+          return true
+        else
+          return false
         end
       end
 
-      def authenticating_with_vkontakte?
-        record_class.vkontakte_enabled_value && @vk_cookies
-      end
-
       def validate_by_vk_cookie
-        result = "expire=%smid=%ssecret=%ssid=%s%s" % [@vk_cookies['expire'], @vk_cookies['mid'], @vk_cookies['secret'], @vk_cookies['sid'], record_class.vk_app_password]
-        if MD5.md5(result).to_s == @vk_cookies['sig'].to_s
+        user_session = controller.params[:user_session]
+        result = "expire=%smid=%ssecret=%ssid=%s%s" % [user_session[:expire], user_session[:mid], user_session[:secret], user_session[:sid], record_class.vk_app_password]
+        if MD5.md5(result).to_s == user_session[:sig].to_s
           raise(NotInitializedError, "You must define vk_id column in your User model") unless record_class.respond_to? find_by_vk_id_method
-          mid_cookie = @vk_cookies['mid'].first
-          possible_record = search_for_record(find_by_vk_id_method, mid_cookie)
+          possible_record = search_for_record(find_by_vk_id_method, user_session[:mid])
           if possible_record.nil?
             possible_record = record_class.new
-            possible_record.send "#{vk_id_field}=", mid_cookie
+            possible_record.send "#{vk_id_field}=", user_session[:mid]
             possible_record.send :persistence_token=, Authlogic::Random.hex_token if possible_record.respond_to? :persistence_token=
             possible_record.send :save, false
           end
@@ -65,9 +61,11 @@ module VkontakteAuthentication
       def record_class
         self.class.klass
       end
-
-      def destroy_vkontakte_cookies
-        controller.cookies.delete record_class.vk_app_cookie
+      
+      def delete_cookie(key)
+        return unless key
+        domain = controller.request.domain
+        [".#{domain}", "#{domain}"].each { |d| controller.cookies.delete(key, :domain => d) }
       end
     end
   end
