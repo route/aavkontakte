@@ -46,15 +46,15 @@ After first start your application, it's copying vkontakte.js to your javascript
 
 * Link
 
-put link somewhere, where you want
+Put link somewhere, where you want:
 
   <%= vkontakte_login_link "Login with vkontakte" %>
 
 * User session
 
-  def create
-    @user_session = UserSession.new(params[:status] ? cookies : params[:user_session])
-    ...
+In create action:
+
+  @user_session = UserSession.new(params[:status] ? cookies : params[:user_session])
 
 == Contributing to aavkontakte
  
