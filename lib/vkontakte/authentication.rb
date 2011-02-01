@@ -27,13 +27,24 @@ module VkontakteAuthentication
         rw_config(:vkontakte_enabled, value, false)
       end
 
-      def vkontakte_auto_registration(value = true)
-        rw_config(:vkontakte_auto_registration, value, true)
+      # Auto registration
+      # def vkontakte_auto_registration(value = true)
+      #   rw_config(:vkontakte_auto_registration, value, true)
+      # end
+      # alias_method :vkontakte_auto_registration=, :vkontakte_auto_registration
+      # 
+      # def vkontakte_auto_registration_value(value = nil)
+      #   rw_config(:vkontakte_auto_registration, value, true)
+      # end
+      
+      # Auto merge
+      def vkontakte_merge_enabled(value = true)
+        rw_config(:vkontakte_merge_enabled, value, true)
       end
-      alias_method :vkontakte_auto_registration=, :vkontakte_auto_registration
-
-      def vkontakte_auto_registration_value(value = nil)
-        rw_config(:vkontakte_enabled, value, true)
+      alias_method :vkontakte_merge_enabled=, :vkontakte_merge_enabled
+      
+      def vkontakte_merge_enabled_value(value = nil)
+        rw_config(:vkontakte_merge_enabled, value, true)
       end
 
       def vk_app_id(value = nil)

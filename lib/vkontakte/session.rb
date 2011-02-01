@@ -52,8 +52,10 @@ module VkontakteAuthentication
               self.attempted_record = record_class.new
               self.attempted_record.send "#{vk_id_field}=", @vkontakte_data[:mid]
               self.attempted_record.send :persistence_token=, Authlogic::Random.hex_token if self.attempted_record.respond_to? :persistence_token=
-              map_vkontakte_data
+              map_vkontakte_data if record_class.vkontakte_merge_enabled_value
               self.attempted_record.save_without_session_maintenance
+            elsif !record_class.vkontakte_auto_registration_value
+              self.attempted_record = record_class.new
             end
           end
           return true

@@ -21,7 +21,21 @@ Add following line:
 
   acts_as_authentic do |c|
     c.vkontakte_enabled = { :vk_app_id => "id", :vk_app_password => "password" }
+    c.vkontakte_merge_enabled true     # mapping user data from vkontakte to new user account, true by default
   end
+ 
+* UserSession model:
+ 
+By default "vkontakte_merge_enabled" uses "map_vkontakte_data" method:
+
+  private
+  def map_vkontakte_data
+    self.attempted_record.send("#{klass.login_field}=", @vkontakte_data[:user][:nickname]) if self.attempted_record.send(klass.login_field).blank?
+    self.attempted_record.send("first_name=", @vkontakte_data[:user][:first_name]) if @vkontakte_data[:user][:first_name]
+    self.attempted_record.send("last_name=", @vkontakte_data[:user][:last_name]) if @vkontakte_data[:user][:last_name]
+  end
+
+If you set option to true, you need override it in user_session model.
 
 * Migrations
 
@@ -30,9 +44,7 @@ Create migration "script/generate migration add_vkontakte_id_to_user vk_id:strin
   class AddVkontakteIdToUser < ActiveRecord::Migration
     def self.up
       add_column :users, :vk_id, :string
-      # Wait a little time for some options for this.
-      # Now you are using only auto-registration, you must remove any database constraints for fields:
-      # Uncomment follow lines
+      # You must remove any database constraints for fields:
       # change_column :users, :crypted_password, :string, :null => true
       # change_column :users, :password_salt, :string, :null => true
       # change_column :users, :login, :string, :null => true
@@ -40,7 +52,6 @@ Create migration "script/generate migration add_vkontakte_id_to_user vk_id:strin
 
     def self.down
       remove_column :users, :vk_id
-      # Uncomment follow lines
       # change_column :users, :crypted_password, :string, :null => false
       # change_column :users, :password_salt, :string, :null => false
       # change_column :users, :login, :string, :null => false
