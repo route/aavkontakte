@@ -27,6 +27,15 @@ module VkontakteAuthentication
         rw_config(:vkontakte_enabled, value, false)
       end
 
+      def vkontakte_auto_registration(value = true)
+        rw_config(:vkontakte_auto_registration, value, true)
+      end
+      alias_method :vkontakte_auto_registration=, :vkontakte_auto_registration
+
+      def vkontakte_auto_registration_value(value = nil)
+        rw_config(:vkontakte_enabled, value, true)
+      end
+
       def vk_app_id(value = nil)
         rw_config(:vk_app_id, value)
         ActiveRecord::Base.send(:rw_config, :vk_app_id, value)
@@ -48,6 +57,10 @@ module VkontakteAuthentication
           validates_confirmation_of_password_field_options validates_confirmation_of_password_field_options.merge(:if => :validate_password_not_vkontakte?)
           validates_length_of_password_confirmation_field_options validates_length_of_password_confirmation_field_options.merge(:if => :validate_password_not_vkontakte?)
         end
+      end
+
+      def using_vkontakte?
+        authenticating_with_vkontakte?
       end
 
       private

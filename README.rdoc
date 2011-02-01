@@ -3,7 +3,7 @@
 This is beta version of aavkontakte - another authlogic vkontakte authorization gem. It provides vkontakte authorization to authlogic.
 This gem is tested with authlogic and authlogic-rpx on my project. Please report me about bugs.
 Vkontakte uses domain protection for url address of your site. But I noticed that:
-http://your-really-domain:3000/ after closing popup window is works too. You must add your domain in /etc/hosts
+http://your-really-domain:3000 after closing popup window is works too. You must add your domain in /etc/hosts
 
 == Install
 
