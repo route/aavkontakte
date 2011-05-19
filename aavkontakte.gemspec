@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dmitry Vorotilin"]
-  s.date = %q{2011-02-02}
-  s.description = %q{Another authlogic vkontakte}
+  s.date = %q{2011-05-18}
+  s.description = %q{Vkontakte authorization for authlogic}
   s.email = %q{mydeeptown@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -30,38 +30,35 @@ Gem::Specification.new do |s|
     "lib/vkontakte.js",
     "lib/vkontakte/authentication.rb",
     "lib/vkontakte/helper.rb",
-    "lib/vkontakte/session.rb",
-    "test/helper.rb",
-    "test/test_aavkontakte.rb"
+    "lib/vkontakte/session.rb"
   ]
-  s.homepage = %q{http://github.com/deeptown/aavkontakte}
+  s.homepage = %q{http://github.com/route/aavkontakte}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{aavkontakte}
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Vkontakte authorization}
-  s.test_files = [
-    "test/helper.rb",
-    "test/test_aavkontakte.rb"
-  ]
+  s.summary = %q{Yet Another Authlogic Vkontakte Authorization}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<shoulda>, [">= 0"])
+      s.add_runtime_dependency(%q<rails>, ["~> 2.3.11"])
+      s.add_runtime_dependency(%q<authlogic>, ["~> 2.1.6"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
     else
-      s.add_dependency(%q<shoulda>, [">= 0"])
+      s.add_dependency(%q<rails>, ["~> 2.3.11"])
+      s.add_dependency(%q<authlogic>, ["~> 2.1.6"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_dependency(%q<rcov>, [">= 0"])
     end
   else
-    s.add_dependency(%q<shoulda>, [">= 0"])
+    s.add_dependency(%q<rails>, ["~> 2.3.11"])
+    s.add_dependency(%q<authlogic>, ["~> 2.1.6"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
     s.add_dependency(%q<rcov>, [">= 0"])

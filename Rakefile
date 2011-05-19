@@ -14,10 +14,10 @@ Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "aavkontakte"
   gem.rubyforge_project = "aavkontakte"
-  gem.homepage = "http://github.com/deeptown/aavkontakte"
+  gem.homepage = "http://github.com/route/aavkontakte"
   gem.license = "MIT"
-  gem.summary = %Q{Vkontakte authorization}
-  gem.description = %Q{Another authlogic vkontakte}
+  gem.summary = %Q{Yet Another Authlogic Vkontakte Authorization}
+  gem.description = %Q{Vkontakte authorization for authlogic}
   gem.email = "mydeeptown@gmail.com"
   gem.authors = ["Dmitry Vorotilin"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
