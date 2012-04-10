@@ -1,3 +1,5 @@
+= !!!DEPRECATED!!! USE OMNIAUTH + AUTHLOGIC
+
 = aavkontakte
 
 This is aavkontakte - yet another authlogic vkontakte authorization gem. It provides vkontakte authorization to authlogic.
